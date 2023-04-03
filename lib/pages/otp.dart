@@ -1,3 +1,4 @@
+import 'package:ecomplaint/home.dart';
 import 'package:ecomplaint/pages/citizenlogin.dart';
 import 'package:flutter/material.dart';
 import 'package:otp_text_field/otp_field.dart';
@@ -45,10 +46,8 @@ class _OTPVerifcationState extends State<OTPVerifcation> {
                     shape: StadiumBorder(), minimumSize: Size.fromHeight(60)),
                 child: Text("Verify OTP"),
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: ((context) => CitizenLogin())));
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => Homepage()));
                 },
               ),
             )

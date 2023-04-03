@@ -1,8 +1,7 @@
 import 'package:ecomplaint/pages/citizenlogin.dart';
 import 'package:ecomplaint/pages/otp.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Signup extends StatefulWidget {
   const Signup({super.key});
@@ -57,6 +56,7 @@ class _SignupState extends State<Signup> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: null,
         title: Text("Signup"),
       ),
       body: SingleChildScrollView(
@@ -75,13 +75,13 @@ class _SignupState extends State<Signup> {
                   padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
                   child: Text(
                     "User Signup",
-                    style: TextStyle(fontSize: 30),
+                    style: GoogleFonts.poppins(fontSize: 20),
                   )),
               Container(
                 padding: const EdgeInsets.all(10),
                 child: TextField(
                   decoration: InputDecoration(
-                    icon: Icon(Icons.perm_phone_msg_rounded),
+                    icon: Icon(Icons.phone),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(90.0),
                     ),
@@ -173,7 +173,7 @@ class _SignupState extends State<Signup> {
                     ),
                     child: const Text('Sign Up'),
                     onPressed: () {
-                      Navigator.push(
+                      Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: ((context) => OTPVerifcation())));

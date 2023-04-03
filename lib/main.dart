@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(primarySwatch: Colors.customBlue),
         debugShowCheckedModeBanner: false,
         home: SplashView(
-          backgroundColor: Colors.grey,
+          backgroundColor: Colors.customBlue,
           loadingIndicator: const RefreshProgressIndicator(),
           logo: Image.asset("assets/images/logo.png"),
           done: Done(const LoginOption()),

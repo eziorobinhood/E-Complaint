@@ -30,66 +30,70 @@ class _HomepageState extends State<Homepage> {
     return Scaffold(
       appBar: AppBar(
         title: Text("E-Complaint"),
+        leading: null,
       ),
-      body: Center(
-          child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Text(
-            "Raise Complaint here",
-            style: Theme.of(context).textTheme.headline3,
-          ),
-          Container(
-            padding: EdgeInsets.all(50),
-            child: TextField(
-              autofocus: true,
-              decoration: InputDecoration(
-                  icon: Icon(Icons.report_problem_outlined),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(100)),
-                  labelText: "Problem Description"),
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Center(
+            child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              "Raise Complaint here",
+              style: Theme.of(context).textTheme.headline3,
             ),
-          ),
-          Container(
-            child: ElevatedButton(
-              onPressed: () {
-                myAlert();
-              },
-              child: Text(
-                "Upload Image",
+            Container(
+              padding: EdgeInsets.all(50),
+              child: TextField(
+                autofocus: true,
+                decoration: InputDecoration(
+                    icon: Icon(Icons.report_problem_outlined),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(100)),
+                    labelText: "Problem Description"),
               ),
             ),
-          ),
-          Container(
-            margin: EdgeInsets.all(40),
-            child: ElevatedButton(
-              child: Text("Submit"),
-              onPressed: () {
-                SnackBar snackBar = SnackBar(
-                  content: Row(
-                    children: <Widget>[
-                      Icon(
-                        Icons.verified,
-                        color: Colors.white,
-                      ),
-                      Text(
-                        "   Problem Submitted",
-                        style: TextStyle(
+            Container(
+              child: ElevatedButton(
+                onPressed: () {
+                  myAlert();
+                },
+                child: Text(
+                  "Upload Image",
+                ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.all(40),
+              child: ElevatedButton(
+                child: Text("Submit"),
+                onPressed: () {
+                  SnackBar snackBar = SnackBar(
+                    content: Row(
+                      children: <Widget>[
+                        Icon(
+                          Icons.verified,
                           color: Colors.white,
                         ),
-                      )
-                    ],
-                  ),
-                  backgroundColor: Color.fromARGB(111, 0, 0, 0),
-                  behavior: SnackBarBehavior.floating,
-                );
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
-              },
-            ),
-          )
-        ],
-      )),
+                        Text(
+                          "   Problem Submitted",
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        )
+                      ],
+                    ),
+                    backgroundColor: Color.fromARGB(111, 0, 0, 0),
+                    behavior: SnackBarBehavior.floating,
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                },
+              ),
+            )
+          ],
+        )),
+      ),
     );
   }
 

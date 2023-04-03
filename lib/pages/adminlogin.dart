@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 
 class AdminLogin extends StatefulWidget {
@@ -17,6 +15,7 @@ class _AdminLoginState extends State<AdminLogin> {
     return Scaffold(
         appBar: AppBar(
           title: Text("Admin Login"),
+          leading: null,
         ),
         body: SingleChildScrollView(
           padding: EdgeInsets.fromLTRB(0, 70, 0, 0),
@@ -34,7 +33,7 @@ class _AdminLoginState extends State<AdminLogin> {
                     padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
                     child: Text(
                       "Admin Login",
-                      style: TextStyle(fontSize: 30),
+                      style: GoogleFonts.poppins(fontSize: 20),
                     )),
                 Container(
                   padding: const EdgeInsets.all(10),

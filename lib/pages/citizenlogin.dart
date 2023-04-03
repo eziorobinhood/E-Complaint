@@ -3,6 +3,7 @@ import 'package:ecomplaint/pages/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CitizenLogin extends StatefulWidget {
   const CitizenLogin({super.key});
@@ -16,6 +17,7 @@ class _CitizenLoginState extends State<CitizenLogin> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          leading: null,
           title: const Text("User Login"),
         ),
         body: SingleChildScrollView(
@@ -33,7 +35,7 @@ class _CitizenLoginState extends State<CitizenLogin> {
                     padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
                     child: Text(
                       "User Login",
-                      style: TextStyle(fontSize: 30),
+                      style: GoogleFonts.poppins(fontSize: 20),
                     )),
                 Container(
                   padding: const EdgeInsets.all(10),
@@ -69,7 +71,7 @@ class _CitizenLoginState extends State<CitizenLogin> {
                       ),
                       child: const Text('Log In'),
                       onPressed: () {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: ((context) => Homepage())));
@@ -78,12 +80,12 @@ class _CitizenLoginState extends State<CitizenLogin> {
                 Container(
                   height: 80,
                   padding: EdgeInsets.fromLTRB(
-                      MediaQuery.of(context).size.width * .20, 0, 0, 0),
+                      MediaQuery.of(context).size.width * .10, 0, 0, 0),
                   child: Row(children: <Widget>[
                     Text("Don't have an account?"),
                     TextButton(
                         onPressed: () {
-                          Navigator.push(
+                          Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                   builder: ((context) => Signup())));
