@@ -1,8 +1,9 @@
+import 'package:ecomplaint/common/widgets/custom_button.dart';
+import 'package:ecomplaint/common/widgets/custom_text.dart';
 import 'package:ecomplaint/home.dart';
 import 'package:ecomplaint/pages/signup.dart';
+import 'package:ecomplaint/services/auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CitizenLogin extends StatefulWidget {
@@ -13,6 +14,17 @@ class CitizenLogin extends StatefulWidget {
 }
 
 class _CitizenLoginState extends State<CitizenLogin> {
+  final _signinuserkey = GlobalKey<FormState>();
+
+  TextEditingController phone = TextEditingController();
+  TextEditingController password = TextEditingController();
+  final AuthService authService = AuthService();
+
+  void SigninUser() {
+    authService.SigninUser(
+        context: context, phoneNumber: phone.text, password: password.text);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,76 +36,55 @@ class _CitizenLoginState extends State<CitizenLogin> {
           scrollDirection: Axis.vertical,
           padding: EdgeInsets.fromLTRB(0, 70, 0, 0),
           child: Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                    padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-                    child: Image.asset("assets/images/user_illustration.png")),
-                Container(
-                    padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-                    child: Text(
-                      "User Login",
-                      style: GoogleFonts.poppins(fontSize: 20),
-                    )),
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(90.0),
-                      ),
-                      labelText: 'Username/ Phone Number',
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  child: TextField(
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(90.0),
-                      ),
-                      labelText: 'Password',
-                    ),
-                  ),
-                ),
-                Container(
+            child: Form(
+              key: _signinuserkey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                      padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                      child:
+                          Image.asset("assets/images/user_illustration.png")),
+                  Container(
+                      padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                      child: Text(
+                        "User Login",
+                        style: GoogleFonts.poppins(fontSize: 20),
+                      )),
+                  CustomTextField(
+                      controller: phone,
+                      hint: "Your phone number",
+                      labeltext: "Phone Number"),
+                  CustomTextField(
+                      controller: password,
+                      hint: "Your Password",
+                      labeltext: "Password"),
+                  CustomButton(
+                      text: "Sign-In",
+                      onTap: () {
+                        if (_signinuserkey.currentState!.validate()) {
+                          SigninUser();
+                        }
+                      }),
+                  Container(
                     height: 80,
-                    width: MediaQuery.of(context).size.width * .50,
-                    padding: const EdgeInsets.all(10),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        shape: StadiumBorder(),
-                        minimumSize: const Size.fromHeight(40),
-                      ),
-                      child: const Text('Log In'),
-                      onPressed: () {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: ((context) => Homepage())));
-                      },
-                    )),
-                Container(
-                  height: 80,
-                  padding: EdgeInsets.fromLTRB(
-                      MediaQuery.of(context).size.width * .10, 0, 0, 0),
-                  child: Row(children: <Widget>[
-                    Text("Don't have an account?"),
-                    TextButton(
-                        onPressed: () {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: ((context) => Signup())));
-                        },
-                        child: Text("Create account"))
-                  ]),
-                )
-              ],
+                    padding: EdgeInsets.fromLTRB(
+                        MediaQuery.of(context).size.width * .20, 0, 0, 0),
+                    child: Row(children: <Widget>[
+                      Text("Don't have an account?"),
+                      TextButton(
+                          onPressed: () {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: ((context) => Signup())));
+                          },
+                          child: Text("Create account"))
+                    ]),
+                  )
+                ],
+              ),
             ),
           ),
         ));

@@ -1,5 +1,7 @@
+import 'package:ecomplaint/common/widgets/custom_button.dart';
+import 'package:ecomplaint/common/widgets/custom_text.dart';
 import 'package:ecomplaint/pages/citizenlogin.dart';
-import 'package:ecomplaint/pages/otp.dart';
+import 'package:ecomplaint/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -12,7 +14,15 @@ class Signup extends StatefulWidget {
 
 class _SignupState extends State<Signup> {
   String? _selectedOption;
-  List<String> options = [
+  final _signupformkey = GlobalKey<FormState>();
+  TextEditingController name = TextEditingController();
+  TextEditingController phoneNumber = TextEditingController();
+  TextEditingController password = TextEditingController();
+  TextEditingController confirmPassword = TextEditingController();
+  final AuthService authService = AuthService();
+
+  List<String> _options = [
+    'Select your city',
     'Ariyalur',
     'Chennai',
     'Chengalpattu',
@@ -52,11 +62,29 @@ class _SignupState extends State<Signup> {
     'Viluppuram',
     'Virudhunagar'
   ];
+
+  @override
+  void dispose() {
+    super.dispose();
+    name.dispose();
+    phoneNumber.dispose();
+    password.dispose();
+    confirmPassword.dispose();
+  }
+
+  void signupUser() {
+    authService.SignupUser(
+        context: context,
+        name: name.text,
+        phoneNumber: phoneNumber.text,
+        password: password.text,
+        confirmPassword: confirmPassword.text);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: null,
         title: Text("Signup"),
       ),
       body: SingleChildScrollView(
@@ -78,76 +106,37 @@ class _SignupState extends State<Signup> {
                     style: GoogleFonts.poppins(fontSize: 20),
                   )),
               Container(
-                padding: const EdgeInsets.all(10),
-                child: TextField(
-                  decoration: InputDecoration(
-                    icon: Icon(Icons.phone),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(90.0),
-                    ),
-                    labelText: 'Phone Number',
-                  ),
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.all(10),
-                child: TextField(
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    icon: Icon(Icons.password_outlined),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(90.0),
-                    ),
-                    labelText: 'Password',
-                  ),
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.all(10),
-                child: TextField(
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    icon: Icon(Icons.password),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(90.0),
-                    ),
-                    labelText: 'Re-Enter Password',
-                  ),
-                ),
-              ),
-              Container(
-                child: Text(
-                  "Select your city",
-                  style: TextStyle(fontSize: 18, color: Colors.grey),
-                ),
-              ),
-              Container(
-                  padding: EdgeInsets.all(10),
-                  width: MediaQuery.of(context).size.width * .70,
-                  child: Stack(
+                padding: const EdgeInsets.all(15),
+                color: Colors.white70,
+                child: Form(
+                  key: _signupformkey,
+                  child: Column(
                     children: [
+                      CustomTextField(
+                          controller: name,
+                          hint: "Enter your Name",
+                          labeltext: "Your Name"),
+                      CustomTextField(
+                          controller: phoneNumber,
+                          hint: "Enter your Phone Number",
+                          labeltext: "Phone Number"),
+                      CustomTextField(
+                          controller: password,
+                          hint: "Enter your Password",
+                          labeltext: "Password"),
+                      CustomTextField(
+                          controller: confirmPassword,
+                          hint: "Confirm your Password",
+                          labeltext: "Confirm Password"),
                       Padding(
-                        padding: const EdgeInsets.all(5.0),
+                        padding: const EdgeInsets.all(8.0),
                         child: DropdownButtonFormField(
                           decoration: InputDecoration(
-                            enabledBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.grey, width: 1),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(50)),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.grey, width: 1),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(50)),
-                            ),
-                            filled: true,
-                            fillColor: Colors.white,
-                          ),
-                          icon: Icon(Icons.arrow_drop_down),
+                              border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(90.0),
+                          )),
                           value: _selectedOption,
-                          items: options.map((String option) {
+                          items: _options.map((String option) {
                             return DropdownMenuItem(
                               value: option,
                               child: Text(option),
@@ -160,25 +149,34 @@ class _SignupState extends State<Signup> {
                           },
                         ),
                       ),
+                      const SizedBox(height: 10),
+                      CustomButton(
+                          text: "Create Account",
+                          onTap: () {
+                            if (_signupformkey.currentState!.validate()) {
+                              signupUser();
+                            }
+                          })
                     ],
-                  )),
+                  ),
+                ),
+              ),
               Container(
-                  height: 80,
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  padding: const EdgeInsets.all(10),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      shape: StadiumBorder(),
-                      minimumSize: const Size.fromHeight(40),
-                    ),
-                    child: const Text('Sign Up'),
-                    onPressed: () {
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: ((context) => OTPVerifcation())));
-                    },
-                  )),
+                height: 80,
+                padding: EdgeInsets.fromLTRB(
+                    MediaQuery.of(context).size.width * .20, 0, 0, 0),
+                child: Row(children: <Widget>[
+                  Text("Already having an account?"),
+                  TextButton(
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: ((context) => CitizenLogin())));
+                      },
+                      child: Text("Sign-In"))
+                ]),
+              )
             ],
           ),
         ),

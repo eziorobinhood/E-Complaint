@@ -1,7 +1,6 @@
+import 'package:ecomplaint/common/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 
 class Homepage extends StatefulWidget {
@@ -13,8 +12,18 @@ class Homepage extends StatefulWidget {
 
 class _HomepageState extends State<Homepage> {
   XFile? image;
+  String? _selectedOption;
 
   final ImagePicker picker = ImagePicker();
+  List<String> _options = [
+    'Garbage',
+    'Pothole',
+    'Transportation',
+    'Drainage',
+    'Pipeline',
+    'Electricity',
+    'Traffic'
+  ];
 
   //we can upload image from camera or from gallery based on parameter
   Future getImage(ImageSource media) async {
@@ -39,58 +48,67 @@ class _HomepageState extends State<Homepage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              "Raise Complaint here",
-              style: Theme.of(context).textTheme.headline3,
+            Container(
+              padding: EdgeInsets.fromLTRB(0, 200, 0, 0),
+              child: Text(
+                "Raise Complaint here",
+                style: GoogleFonts.poppins(fontSize: 30),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(
+                  MediaQuery.of(context).size.width * .1,
+                  10,
+                  MediaQuery.of(context).size.width * .1,
+                  0),
+              child: DropdownButtonFormField(
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(90.0),
+                )),
+                value: _selectedOption,
+                items: _options.map((String option) {
+                  return DropdownMenuItem(
+                    value: option,
+                    child: Text(option),
+                  );
+                }).toList(),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    _selectedOption = newValue;
+                  });
+                },
+              ),
+            ),
+            SizedBox(
+              height: 10,
             ),
             Container(
-              padding: EdgeInsets.all(50),
+              padding: EdgeInsets.fromLTRB(
+                  MediaQuery.of(context).size.width * .1,
+                  10,
+                  MediaQuery.of(context).size.width * .1,
+                  0),
               child: TextField(
                 autofocus: true,
                 decoration: InputDecoration(
-                    icon: Icon(Icons.report_problem_outlined),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(100)),
                     labelText: "Problem Description"),
               ),
             ),
-            Container(
-              child: ElevatedButton(
-                onPressed: () {
-                  myAlert();
-                },
-                child: Text(
-                  "Upload Image",
-                ),
-              ),
+            SizedBox(
+              height: 10,
             ),
-            Container(
-              margin: EdgeInsets.all(40),
-              child: ElevatedButton(
-                child: Text("Submit"),
-                onPressed: () {
-                  SnackBar snackBar = SnackBar(
-                    content: Row(
-                      children: <Widget>[
-                        Icon(
-                          Icons.verified,
-                          color: Colors.white,
-                        ),
-                        Text(
-                          "   Problem Submitted",
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                        )
-                      ],
-                    ),
-                    backgroundColor: Color.fromARGB(111, 0, 0, 0),
-                    behavior: SnackBarBehavior.floating,
-                  );
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                },
-              ),
-            )
+            CustomButton(
+                text: "Upload Image",
+                onTap: () {
+                  myAlert();
+                }),
+            SizedBox(
+              height: 10,
+            ),
+            Container(child: CustomButton(text: "Submit", onTap: () {}))
           ],
         )),
       ),
@@ -110,27 +128,21 @@ class _HomepageState extends State<Homepage> {
               child: Column(
                 children: <Widget>[
                   Container(
-                    margin: EdgeInsets.all(25),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                        getImage(ImageSource.gallery);
-                      },
-                      child: Text(
-                        "From Gallery",
-                      ),
-                    ),
-                  ),
+                      margin: EdgeInsets.all(25),
+                      child: CustomButton(
+                          text: "From Gallery",
+                          onTap: () {
+                            Navigator.pop(context);
+                            getImage(ImageSource.gallery);
+                          })),
                   Container(
-                    margin: EdgeInsets.all(25),
-                    child: ElevatedButton(
-                      child: Text("From Camera"),
-                      onPressed: () {
-                        Navigator.pop(context);
-                        getImage(ImageSource.camera);
-                      },
-                    ),
-                  )
+                      margin: EdgeInsets.all(25),
+                      child: CustomButton(
+                          text: "From Camera",
+                          onTap: () {
+                            Navigator.pop(context);
+                            getImage(ImageSource.camera);
+                          })),
                 ],
               ),
             ),
