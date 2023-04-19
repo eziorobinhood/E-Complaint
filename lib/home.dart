@@ -1,4 +1,6 @@
 import 'package:ecomplaint/common/widgets/custom_button.dart';
+import 'package:ecomplaint/pages/listproblems.dart';
+import 'package:ecomplaint/services/problems.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
@@ -11,9 +13,10 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
+  TextEditingController problemcontroller = TextEditingController();
+  final Problems problems = Problems();
   XFile? image;
   String? _selectedOption;
-
   final ImagePicker picker = ImagePicker();
   List<String> _options = [
     'Garbage',
@@ -24,6 +27,10 @@ class _HomepageState extends State<Homepage> {
     'Electricity',
     'Traffic'
   ];
+  void uploadProblems() {
+    problems.ProblemUploader(context: context, problem: problemcontroller.text);
+    print(problemcontroller.text);
+  }
 
   //we can upload image from camera or from gallery based on parameter
   Future getImage(ImageSource media) async {
@@ -38,7 +45,7 @@ class _HomepageState extends State<Homepage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("E-Complaint"),
+        title: Text("Complaint Submission"),
         leading: null,
       ),
       body: SingleChildScrollView(
@@ -89,7 +96,8 @@ class _HomepageState extends State<Homepage> {
                   10,
                   MediaQuery.of(context).size.width * .1,
                   0),
-              child: TextField(
+              child: TextFormField(
+                controller: problemcontroller,
                 autofocus: true,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(
@@ -108,7 +116,14 @@ class _HomepageState extends State<Homepage> {
             SizedBox(
               height: 10,
             ),
-            Container(child: CustomButton(text: "Submit", onTap: () {}))
+            Container(
+              child: CustomButton(
+                text: "Submit",
+                onTap: () {
+                  uploadProblems();
+                },
+              ),
+            )
           ],
         )),
       ),
