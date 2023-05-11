@@ -1,9 +1,13 @@
 import 'package:ecomplaint/common/widgets/custom_button.dart';
-import 'package:ecomplaint/pages/listproblems.dart';
+import 'package:ecomplaint/pages/list.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:ecomplaint/services/problems.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+
+import 'constants/utils.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -13,12 +17,73 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
+  //Geolocator code goes here:
+
+  String? _currentAddress;
+  Position? _currentPosition;
+
+  Future<bool> _handleLocationPermission() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text(
+              'Location services are disabled. Please enable the services')));
+      return false;
+    }
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Location permissions are denied')));
+        return false;
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text(
+              'Location permissions are permanently denied, we cannot request permissions.')));
+      return false;
+    }
+    return true;
+  }
+
+  Future<void> _getCurrentPosition() async {
+    final hasPermission = await _handleLocationPermission();
+
+    if (!hasPermission) return;
+    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+        .then((Position position) {
+      setState(() => _currentPosition = position);
+      _getAddressFromLatLng(_currentPosition!);
+    }).catchError((e) {
+      debugPrint(e);
+    });
+  }
+
+  Future<void> _getAddressFromLatLng(Position position) async {
+    await placemarkFromCoordinates(
+            _currentPosition!.latitude, _currentPosition!.longitude)
+        .then((List<Placemark> placemarks) {
+      Placemark place = placemarks[0];
+      setState(() {
+        _currentAddress =
+            '${place.street}, ${place.subLocality}, ${place.subAdministrativeArea}, ${place.postalCode}';
+      });
+    }).catchError((e) {
+      debugPrint(e);
+    });
+  }
+
   TextEditingController problemcontroller = TextEditingController();
   final Problems problems = Problems();
   XFile? image;
   String? _selectedOption;
   final ImagePicker picker = ImagePicker();
-  List<String> _options = [
+  final List<String> _options = [
     'Garbage',
     'Pothole',
     'Transportation',
@@ -28,8 +93,14 @@ class _HomepageState extends State<Homepage> {
     'Traffic'
   ];
   void uploadProblems() {
-    problems.ProblemUploader(context: context, problem: problemcontroller.text);
+    problems.ProblemUploader(
+        context: context,
+        problem: problemcontroller.text,
+        problemtype: _selectedOption!,
+        problemlocation: _currentAddress ?? "",
+        image: image!);
     print(problemcontroller.text);
+    print(_selectedOption);
   }
 
   //we can upload image from camera or from gallery based on parameter
@@ -69,6 +140,7 @@ class _HomepageState extends State<Homepage> {
                   MediaQuery.of(context).size.width * .1,
                   0),
               child: DropdownButtonFormField(
+                hint: Text("Select the type of problem"),
                 decoration: InputDecoration(
                     border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(90.0),
@@ -120,10 +192,27 @@ class _HomepageState extends State<Homepage> {
               child: CustomButton(
                 text: "Submit",
                 onTap: () {
-                  uploadProblems();
+                  _getCurrentPosition();
+                  if (_currentAddress == null || _currentAddress == "") {
+                    showSnackbar(context, "Again Press submit");
+                  } else {
+                    uploadProblems();
+                  }
                 },
               ),
-            )
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Container(
+              child: CustomButton(
+                  text: "View all",
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (_) => ListProblems()));
+                  }),
+            ),
+            Text('ADDRESS: ${_currentAddress ?? ""}'),
           ],
         )),
       ),

@@ -1,19 +1,37 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:ecomplaint/constants/utils.dart';
 import 'package:ecomplaint/models/problemmodel.dart';
+import 'package:ecomplaint/providers/userprovider.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 import '../constants/error_handler.dart';
 
 class Problems {
-  String uri = "http://192.168.182.201:3000";
+  String uri = "http://192.168.227.201:3000";
 
-  void ProblemUploader({
-    required BuildContext context,
-    required String problem,
-  }) async {
+  void ProblemUploader(
+      {required BuildContext context,
+      required String problem,
+      required String problemtype,
+      required String problemlocation,
+      required XFile image}) async {
     try {
-      Problemstatement statement = Problemstatement(problem: problem);
+      final cloudinary = CloudinaryPublic("ddvlaqley", "yxozwzar");
+      CloudinaryResponse cloudinaryres = await cloudinary
+          .uploadFile(CloudinaryFile.fromFile(image.path, folder: "Problems"));
+      Problemstatement statement = Problemstatement(
+        problem: problem,
+        problemtype: problemtype,
+        problemlocation: problemlocation,
+        problemimage: cloudinaryres.secureUrl,
+      );
 
       http.Response res = await http.post(
         Uri.parse('$uri/api/problemupload'),

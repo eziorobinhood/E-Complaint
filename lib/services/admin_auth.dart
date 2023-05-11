@@ -3,67 +3,26 @@ import 'dart:convert';
 import 'package:ecomplaint/constants/error_handler.dart';
 import 'package:ecomplaint/constants/utils.dart';
 import 'package:ecomplaint/home.dart';
+import 'package:ecomplaint/pages/list.dart';
 import 'package:ecomplaint/providers/userprovider.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../models/user.dart';
 import 'package:http/http.dart' as http;
 
 class AuthService {
   String uri = "http://192.168.227.201:3000";
-
-  //   -------------------
-  //  |   SIGN UP USER    |
-  //   -------------------
-
-  void SignupUser(
-      {required BuildContext context,
-      required String name,
-      required String phoneNumber,
-      required String password,
-      required String confirmPassword}) async {
-    try {
-      User user = User(
-          id: "",
-          name: name,
-          phoneNumber: phoneNumber,
-          password: password,
-          confirmPassword: confirmPassword,
-          type: "",
-          token: "");
-
-      http.Response res = await http.post(
-        Uri.parse('$uri/api/signup'),
-        body: user.toJson(),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-      );
-
-      errorHandler(
-          response: res,
-          context: context,
-          onSuccess: () {
-            showSnackbar(context,
-                'Account has been created! Login with the same credentials');
-          });
-    } catch (e) {
-      showSnackbar(context, e.toString());
-    }
-  }
-
-  void SigninUser({
+  void SigninAdmin({
     required BuildContext context,
-    required String phoneNumber,
+    required String username,
     required String password,
   }) async {
     try {
       http.Response res = await http.post(
-        Uri.parse('$uri/api/signin'),
-        body: jsonEncode({"phoneNumber": phoneNumber, "password": password}),
+        Uri.parse('$uri/api/admin/signin'),
+        body: jsonEncode({"username": username, "password": password}),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -76,27 +35,27 @@ class AuthService {
             SharedPreferences preferences =
                 await SharedPreferences.getInstance();
             await preferences.setString(
-                'x-auth-token', jsonDecode(res.body())['token']);
+                'x-auth-admin-token', jsonDecode(res.body())['token']);
 
             Provider.of<UserProvider>(context, listen: false)
                 .setUser(res.body());
 
             Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (_) => Homepage()));
+                context, MaterialPageRoute(builder: (_) => ListProblems()));
           });
     } catch (e) {
       showSnackbar(context, e.toString());
     }
   }
 
-  void GetUserData(
+  void GetAdminData(
     BuildContext context,
   ) async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      String? token = prefs.getString('x-auth-token');
+      String? token = prefs.getString('x-auth-admin-token');
       if (token == null) {
-        prefs.setString('x-auth-token', '');
+        prefs.setString('x-auth-admin-token', '');
       }
 
       var tokenres = await http.post(Uri.parse('$uri/ValidateToken'),
