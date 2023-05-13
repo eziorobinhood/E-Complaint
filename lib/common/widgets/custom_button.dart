@@ -8,15 +8,15 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: MediaQuery.of(context).size.width * .4,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-            shape: StadiumBorder(), minimumSize: Size.fromHeight(50)),
+            shape: const StadiumBorder(), minimumSize: const Size.fromHeight(50)),
+        onPressed: onTap,
         child: Text(
           text,
         ),
-        onPressed: onTap,
       ),
     );
   }

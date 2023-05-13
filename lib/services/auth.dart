@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:convert';
 
 import 'package:ecomplaint/constants/error_handler.dart';
@@ -13,7 +15,7 @@ import '../models/user.dart';
 import 'package:http/http.dart' as http;
 
 class AuthService {
-  String uri = "http://192.168.227.201:3000";
+  String uri = "http://192.168.43.163:3000";
 
   //   -------------------
   //  |   SIGN UP USER    |
@@ -68,7 +70,7 @@ class AuthService {
           'Content-Type': 'application/json; charset=UTF-8',
         },
       );
-      print(res.body());
+      print(res.body);
       errorHandler(
           response: res,
           context: context,
@@ -76,13 +78,12 @@ class AuthService {
             SharedPreferences preferences =
                 await SharedPreferences.getInstance();
             await preferences.setString(
-                'x-auth-token', jsonDecode(res.body())['token']);
+                'x-auth-token', jsonDecode(res.body)['token']);
 
-            Provider.of<UserProvider>(context, listen: false)
-                .setUser(res.body());
+            Provider.of<UserProvider>(context, listen: false).setUser(res.body);
 
             Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (_) => Homepage()));
+                context, MaterialPageRoute(builder: (_) => const Homepage()));
           });
     } catch (e) {
       showSnackbar(context, e.toString());
@@ -105,7 +106,7 @@ class AuthService {
             'x-auth-token': token!
           });
 
-      var response = jsonDecode(tokenres.body());
+      var response = jsonDecode(tokenres.body);
       if (response == true) {
         http.Response userResponse = await http.get(Uri.parse('$uri/'),
             headers: <String, String>{
@@ -113,7 +114,7 @@ class AuthService {
               'x-auth-token': token
             });
         var userProvider = Provider.of<UserProvider>(context, listen: false);
-        userProvider.setUser(userResponse.body());
+        userProvider.setUser(userResponse.body);
       }
     } catch (e) {
       showSnackbar(context, e.toString());

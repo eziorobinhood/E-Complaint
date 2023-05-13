@@ -1,6 +1,5 @@
 import 'package:ecomplaint/common/widgets/custom_button.dart';
 import 'package:ecomplaint/common/widgets/custom_text.dart';
-import 'package:ecomplaint/home.dart';
 import 'package:ecomplaint/pages/signup.dart';
 import 'package:ecomplaint/services/auth.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +33,7 @@ class _CitizenLoginState extends State<CitizenLogin> {
         ),
         body: SingleChildScrollView(
           scrollDirection: Axis.vertical,
-          padding: EdgeInsets.fromLTRB(0, 70, 0, 0),
+          padding: const EdgeInsets.fromLTRB(0, 70, 0, 0),
           child: Center(
             child: Form(
               key: _signinuserkey,
@@ -72,15 +71,15 @@ class _CitizenLoginState extends State<CitizenLogin> {
                     padding: EdgeInsets.fromLTRB(
                         MediaQuery.of(context).size.width * .20, 0, 0, 0),
                     child: Row(children: <Widget>[
-                      Text("Don't have an account?"),
+                      const Text("Don't have an account?"),
                       TextButton(
                           onPressed: () {
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: ((context) => Signup())));
+                                    builder: ((context) => const Signup())));
                           },
-                          child: Text("Create account"))
+                          child: const Text("Create account"))
                     ]),
                   )
                 ],

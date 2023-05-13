@@ -14,11 +14,11 @@ class _AdminLoginState extends State<AdminLogin> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Admin Login"),
+          title: const Text("Admin Login"),
           leading: null,
         ),
         body: SingleChildScrollView(
-          padding: EdgeInsets.fromLTRB(0, 70, 0, 0),
+          padding: const EdgeInsets.fromLTRB(0, 70, 0, 0),
           scrollDirection: Axis.vertical,
           child: Center(
             child: Column(
@@ -76,7 +76,7 @@ class _AdminLoginState extends State<AdminLogin> {
                     padding: const EdgeInsets.all(10),
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        shape: StadiumBorder(),
+                        shape: const StadiumBorder(),
                         minimumSize: const Size.fromHeight(40),
                       ),
                       child: const Text('Log In'),

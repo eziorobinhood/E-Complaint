@@ -30,11 +30,11 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        theme: ThemeData(primarySwatch: Colors.customBlue),
+        theme: ThemeData(primarySwatch: Colors.blue),
         debugShowCheckedModeBanner: false,
         home: Provider.of<UserProvider>(context).user.token.isNotEmpty
             ? SplashView(
-                backgroundColor: Colors.customBlue,
+                backgroundColor: Colors.blue,
                 loadingIndicator: const RefreshProgressIndicator(),
                 logo: Image.asset("assets/images/logo.png"),
                 done: Done(const Homepage()),

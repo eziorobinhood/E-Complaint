@@ -116,7 +116,7 @@ class _HomepageState extends State<Homepage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Complaint Submission"),
+        title: const Text("Complaint Submission"),
         leading: null,
       ),
       body: SingleChildScrollView(
@@ -127,7 +127,7 @@ class _HomepageState extends State<Homepage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
-              padding: EdgeInsets.fromLTRB(0, 200, 0, 0),
+              padding: const EdgeInsets.fromLTRB(0, 200, 0, 0),
               child: Text(
                 "Raise Complaint here",
                 style: GoogleFonts.poppins(fontSize: 30),
@@ -140,7 +140,7 @@ class _HomepageState extends State<Homepage> {
                   MediaQuery.of(context).size.width * .1,
                   0),
               child: DropdownButtonFormField(
-                hint: Text("Select the type of problem"),
+                hint: const Text("Select the type of problem"),
                 decoration: InputDecoration(
                     border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(90.0),
@@ -159,7 +159,7 @@ class _HomepageState extends State<Homepage> {
                 },
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Container(
@@ -177,7 +177,7 @@ class _HomepageState extends State<Homepage> {
                     labelText: "Problem Description"),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             CustomButton(
@@ -185,7 +185,7 @@ class _HomepageState extends State<Homepage> {
                 onTap: () {
                   myAlert();
                 }),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Container(
@@ -201,7 +201,7 @@ class _HomepageState extends State<Homepage> {
                 },
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Container(
@@ -209,7 +209,7 @@ class _HomepageState extends State<Homepage> {
                   text: "View all",
                   onTap: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (_) => ListProblems()));
+                        MaterialPageRoute(builder: (_) => const ListProblems()));
                   }),
             ),
             Text('ADDRESS: ${_currentAddress ?? ""}'),
@@ -226,13 +226,13 @@ class _HomepageState extends State<Homepage> {
           return AlertDialog(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-            title: Text('Please choose media to select'),
-            content: Container(
+            title: const Text('Please choose media to select'),
+            content: SizedBox(
               height: MediaQuery.of(context).size.height / 4,
               child: Column(
                 children: <Widget>[
                   Container(
-                      margin: EdgeInsets.all(25),
+                      margin: const EdgeInsets.all(25),
                       child: CustomButton(
                           text: "From Gallery",
                           onTap: () {
@@ -240,7 +240,7 @@ class _HomepageState extends State<Homepage> {
                             getImage(ImageSource.gallery);
                           })),
                   Container(
-                      margin: EdgeInsets.all(25),
+                      margin: const EdgeInsets.all(25),
                       child: CustomButton(
                           text: "From Camera",
                           onTap: () {

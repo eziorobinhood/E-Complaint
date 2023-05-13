@@ -12,7 +12,7 @@ class LoginOption extends StatefulWidget {
 
 class _LoginOptionState extends State<LoginOption> {
   int _selectedIndex = 0;
-  final List<Widget> _children = [AdminLogin(), CitizenLogin()];
+  final List<Widget> _children = [const AdminLogin(), const CitizenLogin()];
 
   @override
   Widget build(BuildContext context) {

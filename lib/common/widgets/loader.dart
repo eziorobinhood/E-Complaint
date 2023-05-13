@@ -8,17 +8,17 @@ class Loader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-      padding: EdgeInsets.fromLTRB(0, 200, 0, 0),
-      color: Colors.customBlue,
+      padding: const EdgeInsets.fromLTRB(0, 200, 0, 0),
+      color: Colors.blue,
       child: Center(
         child: Column(
           children: [
             Image.asset("assets/images/logo.png"),
-            CircularProgressIndicator(
+            const CircularProgressIndicator(
               backgroundColor: Colors.white,
-              color: Colors.customDarkGrey,
+              color: Color.fromARGB(255, 34, 33, 33),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Text(

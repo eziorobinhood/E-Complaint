@@ -21,7 +21,7 @@ class _SignupState extends State<Signup> {
   TextEditingController confirmPassword = TextEditingController();
   final AuthService authService = AuthService();
 
-  List<String> _options = [
+  final List<String> _options = [
     'Select your city',
     'Ariyalur',
     'Chennai',
@@ -85,11 +85,11 @@ class _SignupState extends State<Signup> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Signup"),
+        title: const Text("Signup"),
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
-        padding: EdgeInsets.fromLTRB(0, 100, 0, 0),
+        padding: const EdgeInsets.fromLTRB(0, 100, 0, 0),
         child: Center(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -166,15 +166,15 @@ class _SignupState extends State<Signup> {
                 padding: EdgeInsets.fromLTRB(
                     MediaQuery.of(context).size.width * .20, 0, 0, 0),
                 child: Row(children: <Widget>[
-                  Text("Already having an account?"),
+                  const Text("Already having an account?"),
                   TextButton(
                       onPressed: () {
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: ((context) => CitizenLogin())));
+                                builder: ((context) => const CitizenLogin())));
                       },
-                      child: Text("Sign-In"))
+                      child: const Text("Sign-In"))
                 ]),
               )
             ],

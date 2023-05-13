@@ -26,7 +26,7 @@ class ProblemList {
 
 class _ListProblemsState extends State<ListProblems> {
   final Problems problemservices = Problems();
-  String url = "http://192.168.227.201:3000/problems/getallproblems";
+  String url = "http://192.168.43.163:3000/problems/getallproblems";
   @override
   void initState() {
     super.initState();
@@ -34,7 +34,7 @@ class _ListProblemsState extends State<ListProblems> {
 
   Future<List> fetchAllProblems() async {
     http.Response res = await http.get(Uri.parse(url));
-    var responseData = json.decode(res.body());
+    var responseData = json.decode(res.body);
     List addresslist = [];
     for (var problems in responseData) {
       addresslist.add(problems);
@@ -60,10 +60,10 @@ class _ListProblemsState extends State<ListProblems> {
                 ),
               );
             } else {
-              String? _selectedOption;
-              List<String> _options = [
-                "Unsolved",
+              String? selectedOption;
+              List<String> options = [
                 "Problem Status",
+                "Unsolved",
                 "Resources Assigned",
                 "In progress",
                 "Solved"
@@ -125,7 +125,9 @@ class _ListProblemsState extends State<ListProblems> {
                               child: DecoratedBox(
                                 decoration: BoxDecoration(
                                     border: Border.all(
-                                        color: Colors.customDarkGrey, width: 2),
+                                        color: const Color.fromARGB(
+                                            255, 48, 48, 48),
+                                        width: 2),
                                     borderRadius: BorderRadius.circular(50)),
                                 child: DropdownButtonFormField(
                                   alignment: Alignment.center,
@@ -134,8 +136,8 @@ class _ListProblemsState extends State<ListProblems> {
                                       enabledBorder: InputBorder.none,
                                       focusedBorder: InputBorder.none,
                                       disabledBorder: InputBorder.none),
-                                  value: _selectedOption,
-                                  items: _options.map((String option) {
+                                  value: selectedOption,
+                                  items: options.map((String option) {
                                     return DropdownMenuItem(
                                       value: option,
                                       child: Text(option),
@@ -143,14 +145,35 @@ class _ListProblemsState extends State<ListProblems> {
                                   }).toList(),
                                   onChanged: (String? newValue) {
                                     setState(() {
-                                      _selectedOption = newValue;
+                                      selectedOption = newValue;
                                     });
                                   },
                                 ),
                               ),
                             ),
+                            SizedBox(
+                              height: 20,
+                            ),
                           ],
                         ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            FloatingActionButton.extended(
+                              onPressed: () {},
+                              icon: Icon(Icons.arrow_upward_outlined),
+                              label: Text("Upvote"),
+                            ),
+                            FloatingActionButton.extended(
+                              onPressed: () {},
+                              icon: Icon(Icons.arrow_downward_outlined),
+                              label: Text("0"),
+                            ),
+                          ],
+                        )
                       ],
                     ),
                   ),

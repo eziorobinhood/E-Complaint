@@ -1,20 +1,14 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:ecomplaint/constants/utils.dart';
 import 'package:ecomplaint/models/problemmodel.dart';
-import 'package:ecomplaint/providers/userprovider.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
-import 'package:provider/provider.dart';
 
 import '../constants/error_handler.dart';
 
 class Problems {
-  String uri = "http://192.168.227.201:3000";
+  String uri = "http://192.168.43.163:3000";
 
   void ProblemUploader(
       {required BuildContext context,
