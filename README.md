@@ -1,6 +1,6 @@
 # EComplaint
 
-##Description:
+## Description:
 This project develops a mobile application using Flutter and a backend system with Node.js, Express, and MongoDB to create an efficient e-complaint system for citizens. The app allows citizens to easily submit complaints regarding various issues such as:
  * Public infrastructure: Road damage, street lighting, sanitation
  * Public services: Water supply, electricity, transportation
